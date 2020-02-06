@@ -1,0 +1,38 @@
+char state;
+#define en 230
+void setup() {
+  // put your setup code here, to run once:
+  pinMode(3,OUTPUT);
+  pinMode(5,OUTPUT);
+  pinMode(6,OUTPUT);
+  pinMode(9,OUTPUT);
+  Serial.begin(9600);
+  pinMode(10,OUTPUT);
+  pinMode(11,OUTPUT);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  if(Serial.available()>0){
+    state=Serial.read();
+  }
+  if(state=='F'){
+    control(1,0,1,0,en,en);
+  }else if(state=='B'){
+    control(0,1,0,1,en,en);
+  }else if(state=='L'){
+    control(1,0,0,1,en,en);
+  }else if(state=='R'){
+    control(0,1,1,0,en,en);
+  }else{
+    control(0,0,0,0,0,0);
+  }
+}
+void control(int x,int y,int z,int w,int en1,int en2){
+  digitalWrite(3,x);
+  digitalWrite(5,y);
+  digitalWrite(6,z);
+  digitalWrite(9,w);
+  analogWrite(10,en1);
+  analogWrite(11,en2);
+}
